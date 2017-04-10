@@ -15,5 +15,7 @@
         /// </summary>
         public double A { get; set; }
 
+
+        public Path Path { get; set; } = new Path();
     }
 }
