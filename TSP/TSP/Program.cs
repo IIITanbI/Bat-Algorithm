@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSP
 {
+
     class Program
     {
         public static Random Random { get; set; } = new Random();
@@ -23,73 +24,37 @@ namespace TSP
             for (int i = 0; i < n; i++)
                 Cost[i] = new double[n];
 
-
-            int maxIteration = n * 5;
+            int solveIteration = 10;
             List<Bat> population = new List<Bat>();
+
+
             Path bestPath = new Path();
-            int bestSolution = int.MaxValue;
+            double bestSolution = double.MaxValue;
 
-            for (int i = 0; i < n; i++)
+            var swarmSetting = new SwarmSetting()
             {
-                var b = new Bat()
-                {
-                    A = Random.NextDouble(),
-                    R = Random.NextDouble(),
-                    V = Random.NextDouble(),
-                };
-                population.Add(b);
-            }
+                SwarmSize = 50,
+                Cost = Cost,
+                Alpha = 0.98,
+                Gamma = 0.98
+            };
 
-            for (int t = 0; t < maxIteration; t++)
+            Swarm swarm = new Swarm(swarmSetting);
+            for (int t = 0; t < solveIteration; t++)
             {
-                for (int i = 0; i < n; i++)
+                for (int tt = 0; tt < n; tt++)
                 {
-                    var bat = population[i];
-                    bat.V = Random.Next(1, HammingDistance(bat.Path, bestPath));
-                    if (bat.V < n / 2)
-                        bat.Path = TwoOpt(bat.Path);
-                    else
-                        bat.Path = ThreeOpt(bat.Path);
-
-                    double rand = Random.NextDouble();
-                    if (rand > bat.R)
-                    {
-
-                    }
-                    if (rand < bat.A && Function(bat.Path) < bestSolution)
-                    {
-                        bestPath = bat.Path;
-                    }
+                    swarm.NextStep();
                 }
 
-
+                if (swarm.BestSolution < bestSolution)
+                {
+                    bestSolution = swarm.BestSolution;
+                    bestPath = swarm.BestPath;
+                }
             }
         }
 
-
-        int HammingDistance(Path p1, Path p2) => HammingDistance(p1.Cities, p2.Cities);
-        int HammingDistance(List<int> t1, List<int> t2)
-        {
-            if (t1.Count != t2.Count)
-                throw new NotImplementedException();
-
-            int res = 0;
-            for (int i = 0; i < t1.Count; i++)
-            {
-                if (t1[i] != t2[i])
-                    res++;
-            }
-            return res;
-        }
-
-        Path TwoOpt(Path path)
-        {
-            return new Path(path);
-        }
-        Path ThreeOpt(Path path)
-        {
-            return new Path(path);
-        }
 
         double Function(Path path)
         {
