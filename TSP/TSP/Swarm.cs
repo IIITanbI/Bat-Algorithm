@@ -6,7 +6,7 @@ namespace TSP
 {
     public class SwarmSetting
     {
-        public double[][] Cost { get; set; }
+        public double[][] CostMatrix { get; set; }
         public int SwarmSize { get; set; }
         public double Alpha { get; set; } = 0.98;
         public double Gamma { get; set; } = 0.98;
@@ -23,23 +23,25 @@ namespace TSP
         public Swarm(SwarmSetting setting)
         {
             Setting = setting;
-            N = setting.Cost.GetLength(0);
+            N = setting.CostMatrix.GetLength(0);
 
             for (int i = 0; i < setting.SwarmSize; i++)
             {
-                var b = new Bat(0)
+                var b = new Bat(0, N)
                 {
-                    A = Program.Random.NextDouble(),
+                    A = (double)Program.Random.Next(700, 1000) / 1000.0,
                     R = Program.Random.NextDouble(),
-                    V = Program.Random.Next(1, N),
+                    V = 1,
                 };
                 Bats.Add(b);
             }
+            BestPath = new Path();
+            BestPath.Cities.Add(0);
         }
 
 
         public Path BestPath { get; set; } = null;
-        public double BestSolution { get; set; } = int.MaxValue;
+        public double BestSolution { get; set; } = double.MaxValue;
 
         public int StepNumber { get; private set; } = 1;
         public bool IsSolutionCompleted { get; private set; } = false;
@@ -52,17 +54,20 @@ namespace TSP
             StepNumber++;
 
             Path bestPath = null;
+            double bestSolution = double.MaxValue;
+
 
             for (int i = 0; i < Bats.Count; i++)
             //foreach (var bat in Bats)
             {
                 var bat = Bats[i];
+                var tPath = new Path(bat.Path);
+                bat.NextCity(Setting.CostMatrix, bat.V);
 
-                bat.V = Program.Random.Next(1, Helper.HammingDistance(bat.Path, bestPath));
-                if (bat.V < N / 2)
-                    bat.Path = Helper.TwoOpt(bat.Path);
-                else
-                    bat.Path = Helper.ThreeOpt(bat.Path);
+                int dst = Helper.HammingDistance(tPath, BestPath);
+                dst = Math.Max(dst, 2);
+                bat.V = Program.Random.Next(1, dst);
+                bat.SetPath(Helper.TwoOpt(bat.Path));
 
                 double rand = Program.Random.NextDouble();
                 if (rand > bat.R)
@@ -72,27 +77,30 @@ namespace TSP
                     {
                         if (Bats[j].Cost < bestBat.Cost)
                             bestBat = Bats[j];
+
+                        var tempPath = Helper.BestPath(Setting.CostMatrix, bestBat.Path);
+                        bat.SetPath(tempPath);
+                        bat.Cost = bat.Path.GetCost(Setting.CostMatrix);
                     }
-
-
-
                 }
                 double curSolution = Function(bat.Path);
-                if (rand < bat.A && curSolution <= BestSolution)
+                if (bestPath == null || curSolution <= bestSolution)
                 {
                     bestPath = bat.Path;
-                    BestSolution = curSolution;
+                    bestSolution = curSolution;
 
                     bat.R = Setting.InitialR * (1 - Math.Exp(-StepNumber * Setting.Gamma));
                     bat.A = Setting.Alpha * bat.A;
                 }
-
             }
 
-            if (StepNumber == N)
+            BestPath = bestPath;
+            BestSolution = bestSolution;
+
+            if (StepNumber == N + 1)
                 IsSolutionCompleted = true;
         }
-        double Function(Path path) => path.GetCost(Setting.Cost);
+        double Function(Path path) => path.GetCost(Setting.CostMatrix);
 
         public IEnumerator<Bat> GetEnumerator() => Bats.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

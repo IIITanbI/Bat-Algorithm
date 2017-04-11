@@ -19,31 +19,39 @@ namespace TSP
         double[][] Cost;
         void Run()
         {
-            int n = 20;
+            int n = 8;
             Cost = new double[n][];
             for (int i = 0; i < n; i++)
+            {
                 Cost[i] = new double[n];
+                for (int j = 0; j < n; j++)
+                {
+                    Cost[i][j] = Random.Next(1, 100);
+                }
+            }
 
             int solveIteration = 10;
-            List<Bat> population = new List<Bat>();
-
 
             Path bestPath = new Path();
             double bestSolution = double.MaxValue;
 
             var swarmSetting = new SwarmSetting()
             {
+                CostMatrix = Cost,
                 SwarmSize = 50,
-                Cost = Cost,
-                Alpha = 0.98,
-                Gamma = 0.98
+                InitialR = Random.NextDouble() % 0.41
             };
 
-            Swarm swarm = new Swarm(swarmSetting);
             for (int t = 0; t < solveIteration; t++)
             {
+                Swarm swarm = new Swarm(swarmSetting);
                 for (int tt = 0; tt < n; tt++)
                 {
+                    if (tt == n - 1)
+                    {
+                        var tttt = swarm.BestPath.Cities.Distinct().ToList();
+                        var dd = swarm.BestPath.Cities.Where(i => swarm.BestPath.Cities.Count(ii => ii == i) > 1).ToList();
+                    }
                     swarm.NextStep();
                 }
 
@@ -53,12 +61,15 @@ namespace TSP
                     bestPath = swarm.BestPath;
                 }
             }
-        }
 
 
-        double Function(Path path)
-        {
-            return path.GetCost(Cost);
+            var trueSolve = Stepin.Program.StupidSolve(Cost);
+
+            double res2 = 0;
+            for (int i = 0; i < trueSolve.Count - 1; i++) res2 += Cost[trueSolve[i]][trueSolve[i + 1]];
+
+            Console.WriteLine(bestSolution);
+            Console.WriteLine(res2);
         }
     }
 }

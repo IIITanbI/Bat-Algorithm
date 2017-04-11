@@ -24,11 +24,50 @@ namespace TSP
 
         public static Path TwoOpt(Path path)
         {
-            return new Path(path);
+            int n = path.Cities.Count;
+            if (n < 4)
+                return new Path(path);
+
+            int i, k;
+
+            while (true)
+            {
+                i = Program.Random.Next(1, n - 1);
+                k = Program.Random.Next(1, n - 1);
+                if (i == k)
+                    continue;
+
+                if (i > k)
+                {
+                    int temp = i;
+                    i = k;
+                    k = i;
+                }
+                break;
+            }
+
+            var p = new Path(path);
+            p.Cities.Reverse(i, k - i + 1);
+
+            return p;
         }
-        public static Path ThreeOpt(Path path)
+        //public static Path ThreeOpt(Path path)
+        //{
+        //    return new Path(path);
+        //}
+
+        public static Path BestPath(double[][] costMatrix, Path path)
         {
-            return new Path(path);
+            var newPath = new Path(path);
+            double tempCost1 = newPath.GetCost(costMatrix);
+
+            var modifiedPath = Helper.TwoOpt(newPath);
+            double tempCost2 = modifiedPath.GetCost(costMatrix);
+
+            if (tempCost1 < tempCost2)
+                return newPath;
+            else
+                return modifiedPath;
         }
     }
 }
