@@ -86,7 +86,7 @@ namespace TSP
                 var newPath = new Path(Path);
                 newPath.Cities.Add(to);
 
-                var tPath = Helper.BestPath(costMatrix, newPath);
+                var tPath = newPath.BestPath(costMatrix); 
 
                 if (bestPath == null || tPath.GetCost(costMatrix) < bestPath.GetCost(costMatrix))
                 {

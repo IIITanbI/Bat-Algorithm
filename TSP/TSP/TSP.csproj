@@ -43,14 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bat.cs" />
-    <Compile Include="Helper.cs" />
     <Compile Include="Swarm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Path.cs" />
+    <Compile Include="SwarmSetting.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Stepin\Stepin.csproj">

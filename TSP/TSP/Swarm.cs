@@ -4,16 +4,7 @@ using System.Collections.Generic;
 
 namespace TSP
 {
-    public class SwarmSetting
-    {
-        public double[][] CostMatrix { get; set; }
-        public int SwarmSize { get; set; }
-        public double Alpha { get; set; } = 0.98;
-        public double Gamma { get; set; } = 0.98;
-
-        public double InitialR { get; set; }
-    }
-    public class Swarm : IEnumerable<Bat>
+    public class Swarm 
     {
         private int N { get; set; }
 
@@ -64,10 +55,10 @@ namespace TSP
                 var tPath = new Path(bat.Path);
                 bat.NextCity(Setting.CostMatrix, bat.V);
 
-                int dst = Helper.HammingDistance(tPath, BestPath);
+                int dst = tPath.HammingDistance(BestPath);
                 dst = Math.Max(dst, 2);
                 bat.V = Program.Random.Next(1, dst);
-                bat.SetPath(Helper.TwoOpt(bat.Path));
+                bat.SetPath(bat.Path.TwoOpt());
 
                 double rand = Program.Random.NextDouble();
                 if (rand > bat.R)
@@ -78,7 +69,7 @@ namespace TSP
                         if (Bats[j].Cost < bestBat.Cost)
                             bestBat = Bats[j];
 
-                        var tempPath = Helper.BestPath(Setting.CostMatrix, bestBat.Path);
+                        var tempPath = bestBat.Path.BestPath(Setting.CostMatrix);
                         bat.SetPath(tempPath);
                         bat.Cost = bat.Path.GetCost(Setting.CostMatrix);
                     }
@@ -101,8 +92,5 @@ namespace TSP
                 IsSolutionCompleted = true;
         }
         double Function(Path path) => path.GetCost(Setting.CostMatrix);
-
-        public IEnumerator<Bat> GetEnumerator() => Bats.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
