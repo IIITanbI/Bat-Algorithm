@@ -1,23 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TSP
 {
-
-    class Program
+    public class TSP_Solver
     {
         public static Random Random { get; set; } = new Random();
 
-        static void Main(string[] args)
-        {
-            new Program().Run();
-        }
-
         double[][] Cost;
-        void Run()
+        public void Run()
         {
             int n = 8;
             Cost = new double[n][];
@@ -63,10 +54,10 @@ namespace TSP
             }
 
 
-            var trueSolve = Stepin.Program.StupidSolve(Cost);
+            //var trueSolve = Program.StupidSolve(Cost);
 
             double res2 = 0;
-            for (int i = 0; i < trueSolve.Count - 1; i++) res2 += Cost[trueSolve[i]][trueSolve[i + 1]];
+            //for (int i = 0; i < trueSolve.Count - 1; i++) res2 += Cost[trueSolve[i]][trueSolve[i + 1]];
 
             Console.WriteLine(bestSolution);
             Console.WriteLine(res2);

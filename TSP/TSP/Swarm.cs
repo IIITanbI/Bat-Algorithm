@@ -20,8 +20,8 @@ namespace TSP
             {
                 var b = new Bat(0, N)
                 {
-                    A = (double)Program.Random.Next(700, 1000) / 1000.0,
-                    R = Program.Random.NextDouble(),
+                    A = (double)TSP_Solver.Random.Next(700, 1000) / 1000.0,
+                    R = TSP_Solver.Random.NextDouble(),
                     V = 1,
                 };
                 Bats.Add(b);
@@ -57,10 +57,10 @@ namespace TSP
 
                 int dst = tPath.HammingDistance(BestPath);
                 dst = Math.Max(dst, 2);
-                bat.V = Program.Random.Next(1, dst);
+                bat.V = TSP_Solver.Random.Next(1, dst);
                 bat.SetPath(bat.Path.TwoOpt());
 
-                double rand = Program.Random.NextDouble();
+                double rand = TSP_Solver.Random.NextDouble();
                 if (rand > bat.R)
                 {
                     Bat bestBat = Bats[0];

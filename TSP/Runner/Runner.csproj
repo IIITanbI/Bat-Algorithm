@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{62941122-4285-4499-9880-44283B8108A6}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>TSP</RootNamespace>
-    <AssemblyName>TSP</AssemblyName>
+    <ProjectGuid>{85200487-DDDD-481F-93D5-9701386DA224}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Runner</RootNamespace>
+    <AssemblyName>Runner</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,9 +31,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,15 +42,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bat.cs" />
-    <Compile Include="Swarm.cs" />
+    <Compile Include="Extentsion.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Path.cs" />
-    <Compile Include="SwarmSetting.cs" />
-    <Compile Include="TSP_Solver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Stepin\Stepin.csproj">
+      <Project>{2a919618-18bc-4ecf-b15e-c5ab72faba8d}</Project>
+      <Name>Stepin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TSP\TSP.csproj">
+      <Project>{62941122-4285-4499-9880-44283b8108a6}</Project>
+      <Name>TSP</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -57,8 +57,8 @@ namespace TSP
 
             while (true)
             {
-                i = Program.Random.Next(1, n - 1);
-                k = Program.Random.Next(1, n - 1);
+                i = TSP_Solver.Random.Next(1, n - 1);
+                k = TSP_Solver.Random.Next(1, n - 1);
                 if (i == k)
                     continue;
 
