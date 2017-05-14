@@ -1,4 +1,4 @@
-﻿using Stepin;
+﻿using Ant;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TSP;
 
 namespace Runner
 {
@@ -57,44 +58,9 @@ namespace Runner
             return distances;
         }
 
-        static object _lock = new object();
-        static void Main1(string[] args)
+        static double RunAnt(double[][] distances)
         {
-            string folder = @"C:\Users\1\Downloads\ALL_tsp";
-            string file = "a280";
-            var distances = ParseDistances(Path.Combine(folder, file + ".tsp"));
-            var expectedSolve = ParseSolve(Path.Combine(folder, file + ".opt.tour"));
-            //var distances = RandomDst(8);
-            //var trueSolve = StupidSolve(distances);
-            //PrintMatrix(distances);
-            //PrintMatrixInFile(distances, "file.txt");
-
-            Console.WriteLine("Start");
-            Stopwatch sw = Stopwatch.StartNew();
-            var antProblem = new AntProblem()
-            {
-                Distances = distances
-            };
-            var antSolve = antProblem.Solve();
-            sw.Stop();
-            Console.WriteLine("Elapsed: " + (double)sw.ElapsedMilliseconds / 1000.0);
-
-            double actual = 0;
-            for (int i = 0; i < antSolve.Count - 1; i++) actual += distances[antSolve[i]][antSolve[i + 1]];
-
-            double expected = 0;
-            for (int i = 0; i < expectedSolve.Count - 1; i++) expected += distances[expectedSolve[i]][expectedSolve[i + 1]];
-
-            Console.WriteLine("Results:");
-            Console.WriteLine(actual);
-            Console.WriteLine(expected);
-        }
-        static void Main(string[] args)
-        {
-            string folder = @"C:\Users\1\Downloads\ALL_tsp";
-            string file = "bays29";
-            var distances = ParseDistances1(Path.Combine(folder, file + ".tsp"));
-            var expectedSolve = ParseSolve(Path.Combine(folder, file + ".opt.tour"));
+            Console.WriteLine("Ant Problem");
 
             List<double> solves = new List<double>();
             Dictionary<int, double> solvesIter = new Dictionary<int, double>();
@@ -103,25 +69,24 @@ namespace Runner
             elites = new List<int>() { 10 };
 
             List<int> iterations = new List<int>() { 1000 };
-            Console.WriteLine("Start");
             Stopwatch global = Stopwatch.StartNew();
             for (int it = 0; it < iterations.Count; it++)
             {
-                solvesIter.Add(iterations[it], double.MaxValue);
+                int _it = iterations[it];
+                solvesIter.Add(_it, double.MaxValue);
                 for (int j = 0; j < elites.Count; j++)
                 {
                     for (double a = 0.8; a <= 1; a += 0.1)
                     {
                         for (double b = 0.8; b <= 1; b += 0.1)
                         {
-                            int _it = iterations[it];
                             var antProblem = new AntProblem()
                             {
-                                alpha = a,
-                                beta = b,
+                                Alpha = a,
+                                Beta = b,
                                 EliteAnt = elites[j],
                                 Distances = distances,
-                                max_iteration = _it
+                                MaxIteration = _it
                             };
                             var antSolve = antProblem.Solve();
 
@@ -130,6 +95,7 @@ namespace Runner
                                 res += distances[antSolve[i]][antSolve[i + 1]];
 
                             solves.Add(res);
+                            Console.WriteLine(solves.Min());
                             solvesIter[_it] = Math.Min(res, solvesIter[_it]);
                             abd.Add(new KeyValuePair<double, Tuple<double, double>>(res, new Tuple<double, double>(a, b)));
                         }
@@ -138,19 +104,19 @@ namespace Runner
             }
 
             global.Stop();
-            Console.WriteLine();
-            Console.WriteLine();
             Console.WriteLine("Total Elapsed: " + global.ElapsedMilliseconds / 1000.0);
             solves.Sort();
             Console.WriteLine("All solves:\n" + string.Join(" ", solves));
 
-            double expected = 0;
-            for (int i = 0; i < expectedSolve.Count - 1; i++) expected += distances[expectedSolve[i]][expectedSolve[i + 1]];
-
             Console.WriteLine();
             Console.WriteLine("Results");
-            Console.WriteLine(expected);
+            foreach (var pair in solvesIter)
+            {
+                Console.WriteLine(pair.Key + ": " + pair.Value);
+            }
+
             Console.WriteLine();
+            Console.WriteLine("Results by a b");
             abd.Sort((a, b) =>
             {
                 int cmp = a.Key.CompareTo(b.Key);
@@ -165,21 +131,105 @@ namespace Runner
                 else
                     return cmp;
             });
-            foreach (var pair in solvesIter)
-            {
-                Console.WriteLine(pair.Key + " " + pair.Value);
-            }
-            Console.WriteLine();
-            Console.WriteLine("Results by a b");
             foreach (var pair in abd)
             {
                 Console.WriteLine(pair.Key + " " + pair.Value);
             }
             Console.WriteLine();
-            Console.WriteLine(AntProblem.t1);
-            Console.WriteLine(AntProblem.t2);
-            Console.WriteLine(AntProblem.t3);
-            Console.WriteLine(AntProblem.total);
+
+            return solves.First();
+        }
+        static double RunBat(double[][] cost)
+        {
+            Console.WriteLine("Bat Problem");
+
+            List<double> solves = new List<double>();
+            Dictionary<int, double> solvesIter = new Dictionary<int, double>();
+
+            List<int> iterations = new List<int>() { 100 };
+            List<int> swarmSize = new List<int>() {30 };
+            Stopwatch global = Stopwatch.StartNew();
+            for (int it = 0; it < iterations.Count; it++)
+            {
+                int _it = iterations[it];
+                solvesIter.Add(_it, double.MaxValue);
+                for (int ss = 0; ss < swarmSize.Count; ss++)
+                {
+                    var problem = new BatProblem()
+                    {
+                        Cost = cost,
+                        MaxIteration = _it,
+                        SwarmSize = swarmSize[ss]
+                    };
+                    var solve = problem.Solve();
+
+                    double res = 0;
+                    for (int i = 0; i < solve.Count - 1; i++)
+                        res += cost[solve[i]][solve[i + 1]];
+
+                    solves.Add(res);
+                    solvesIter[_it] = Math.Min(res, solvesIter[_it]);
+                }
+            }
+
+            global.Stop();
+            Console.WriteLine("Total Elapsed: " + global.ElapsedMilliseconds / 1000.0);
+            solves.Sort();
+            Console.WriteLine("All solves:\n" + string.Join(" ", solves));
+
+            Console.WriteLine();
+            Console.WriteLine("Results");
+            foreach (var pair in solvesIter)
+            {
+                Console.WriteLine(pair.Key + ": " + pair.Value);
+            }
+            return solves.First();
+        }
+
+        static double[][] CopyArr(double[][] arr)
+        {
+            double[][] res = new double[arr.Length][];
+            for(int i = 0; i < arr.Length; i++)
+            {
+                res[i] = new double[arr.Length];
+                arr[i].CopyTo(res[i], 0);
+            }
+
+            return res;
+        }
+        static void Main(string[] args)
+        {
+            string folder = @"C:\Users\1\Downloads\ALL_tsp";
+            string file = "eil51";
+            var distances = ParseDistances(System.IO.Path.Combine(folder, file + ".tsp"));
+            var expectedSolve = ParseSolve(System.IO.Path.Combine(folder, file + ".opt.tour"));
+            double expected = 0;
+            for (int i = 0; i < expectedSolve.Count - 1; i++) expected += distances[expectedSolve[i]][expectedSolve[i + 1]];
+            Console.WriteLine("Expected Result:");
+            Console.WriteLine(expected);
+
+            Console.WriteLine();
+            Console.WriteLine("Start");
+
+            double antRes = double.MaxValue;
+            double batRes = double.MaxValue;
+            for (int i = 0; i < 10; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Try #" + i);
+                Console.ForegroundColor = ConsoleColor.Gray;
+
+                var ar = RunAnt(CopyArr(distances));
+                antRes = Math.Min(antRes, ar);
+                Console.WriteLine();
+                Console.WriteLine();
+                //var br = RunBat(CopyArr(distances));
+                //batRes = Math.Min(batRes, br);
+                //Console.WriteLine();
+            }
+
+            Console.WriteLine("Best ant: " + antRes);
+            Console.WriteLine("Best bat: " + batRes);
         }
 
         public static List<int> StupidSolve(double[][] distances)
@@ -207,8 +257,10 @@ namespace Runner
                     bestWay = permute;
                 }
             }
-            List<int> res = new List<int>();
-            res.Add(0);
+            List<int> res = new List<int>
+            {
+                0
+            };
             res.AddRange(bestWay);
             res.Add(0);
             return res;
@@ -238,7 +290,7 @@ namespace Runner
                 res[i] = new double[points.Count];
                 for (int j = 0; j < points.Count; j++)
                 {
-                    res[i][j] = Math.Sqrt(Math.Pow(points[i].Item1 - points[j].Item1, 2) + Math.Pow(points[i].Item2 - points[j].Item2, 2));
+                    res[i][j] = (int)(Math.Sqrt(Math.Pow(points[i].Item1 - points[j].Item1, 2) + Math.Pow(points[i].Item2 - points[j].Item2, 2)) + 0.5);
                 }
             }
             return res;

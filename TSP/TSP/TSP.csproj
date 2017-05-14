@@ -50,7 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Path.cs" />
     <Compile Include="SwarmSetting.cs" />
-    <Compile Include="TSP_Solver.cs" />
+    <Compile Include="BatProblem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

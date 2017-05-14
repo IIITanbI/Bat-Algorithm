@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Stepin\Stepin.csproj">
+    <ProjectReference Include="..\Ant\Ant.csproj">
       <Project>{2a919618-18bc-4ecf-b15e-c5ab72faba8d}</Project>
-      <Name>Stepin</Name>
+      <Name>Ant</Name>
     </ProjectReference>
     <ProjectReference Include="..\TSP\TSP.csproj">
       <Project>{62941122-4285-4499-9880-44283b8108a6}</Project>

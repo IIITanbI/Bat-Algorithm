@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TSP
 {
@@ -20,8 +21,8 @@ namespace TSP
             {
                 var b = new Bat(0, N)
                 {
-                    A = (double)TSP_Solver.Random.Next(700, 1000) / 1000.0,
-                    R = TSP_Solver.Random.NextDouble(),
+                    A = (double)BatProblem.Random.Next(700, 1000) / 1000.0,
+                    R = BatProblem.Random.NextDouble(),
                     V = 1,
                 };
                 Bats.Add(b);
@@ -37,8 +38,10 @@ namespace TSP
         public int StepNumber { get; private set; } = 1;
         public bool IsSolutionCompleted { get; private set; } = false;
 
+        public static double timer = 0;
         public void NextStep()
         {
+            var sw = Stopwatch.StartNew();
             if (IsSolutionCompleted)
                 throw new Exception("There's no available cities to next movement");
 
@@ -57,10 +60,10 @@ namespace TSP
 
                 int dst = tPath.HammingDistance(BestPath);
                 dst = Math.Max(dst, 2);
-                bat.V = TSP_Solver.Random.Next(1, dst);
+                bat.V = BatProblem.Random.Next(1, dst);
                 bat.SetPath(bat.Path.TwoOpt());
 
-                double rand = TSP_Solver.Random.NextDouble();
+                double rand = BatProblem.Random.NextDouble();
                 if (rand > bat.R)
                 {
                     Bat bestBat = Bats[0];
@@ -90,6 +93,7 @@ namespace TSP
 
             if (StepNumber == N + 1)
                 IsSolutionCompleted = true;
+            timer += sw.ElapsedMilliseconds / 1000.0;
         }
         double Function(Path path) => path.GetCost(Setting.CostMatrix);
     }

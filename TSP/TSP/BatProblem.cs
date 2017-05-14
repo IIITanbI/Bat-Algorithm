@@ -1,27 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TSP
 {
-    public class TSP_Solver
+    public class BatProblem
     {
-        public static Random Random { get; set; } = new Random();
+        public static Random Random { get; set; } = new Random((int)(DateTime.Now.Ticks % int.MaxValue));
 
-        double[][] Cost;
-        public void Run()
+        public int MaxIteration = 10;
+        public int SwarmSize = 50;
+        public double[][] Cost;
+        public List<int> Solve()
         {
-            int n = 8;
-            Cost = new double[n][];
-            for (int i = 0; i < n; i++)
-            {
-                Cost[i] = new double[n];
-                for (int j = 0; j < n; j++)
-                {
-                    Cost[i][j] = Random.Next(1, 100);
-                }
-            }
-
-            int solveIteration = 10;
+            int n = Cost.Length;
 
             Path bestPath = new Path();
             double bestSolution = double.MaxValue;
@@ -29,11 +21,11 @@ namespace TSP
             var swarmSetting = new SwarmSetting()
             {
                 CostMatrix = Cost,
-                SwarmSize = 50,
+                SwarmSize = SwarmSize,
                 InitialR = Random.NextDouble() % 0.41
             };
 
-            for (int t = 0; t < solveIteration; t++)
+            for (int t = 0; t < MaxIteration; t++)
             {
                 Swarm swarm = new Swarm(swarmSetting);
                 for (int tt = 0; tt < n; tt++)
@@ -53,14 +45,7 @@ namespace TSP
                 }
             }
 
-
-            //var trueSolve = Program.StupidSolve(Cost);
-
-            double res2 = 0;
-            //for (int i = 0; i < trueSolve.Count - 1; i++) res2 += Cost[trueSolve[i]][trueSolve[i + 1]];
-
-            Console.WriteLine(bestSolution);
-            Console.WriteLine(res2);
+            return bestPath.Cities;
         }
     }
 }

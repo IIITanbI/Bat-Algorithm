@@ -53,7 +53,7 @@ namespace TSP
                 Used[i] = false;
             foreach (var i in path.Cities)
                 Used[i] = true;
-            this.Path = path;
+            Path = path;
         }
 
         public void NextCity(double[][] costMatrix, int neighbourCount = -1)
@@ -86,14 +86,14 @@ namespace TSP
                 var newPath = new Path(Path);
                 newPath.Cities.Add(to);
 
-                var tPath = newPath.BestPath(costMatrix); 
+                var tPath = newPath.BestPath(costMatrix);
 
                 if (bestPath == null || tPath.GetCost(costMatrix) < bestPath.GetCost(costMatrix))
                 {
-                    if (tPath.Cities.First() != tPath.Cities.Last() &&   tPath.Cities.Distinct().Count() != tPath.Cities.Count)
-                    {
-
-                    }
+                    //if (tPath.Cities.First() != tPath.Cities.Last() &&   tPath.Cities.Distinct().Count() != tPath.Cities.Count)
+                    //{
+                    //    throw new System.Exception("Err");
+                    //}
                     bestPath = tPath;
                 }
 
@@ -101,9 +101,9 @@ namespace TSP
                 if (!examineAll && examine == V)
                     break;
             }
-            if (bestPath.Cities.Distinct().Count() != bestPath.Cities.Count)
+            if (bestPath.Cities.Distinct().Count() != n)
             {
-
+                //  throw new System.Exception("Err");
             }
 
             Path = bestPath;
@@ -116,7 +116,7 @@ namespace TSP
             {
                 if (!Used[i])
                 {
-
+                    throw new System.Exception("Err");
                 }
             }
         }
