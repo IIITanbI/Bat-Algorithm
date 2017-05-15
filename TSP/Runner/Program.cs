@@ -199,7 +199,7 @@ namespace Runner
         }
         static void Main(string[] args)
         {
-            string folder = @"C:\Users\1\Downloads\ALL_tsp";
+            string folder = @"ALL_tsp";
             string file = "eil51";
             var distances = ParseDistances(System.IO.Path.Combine(folder, file + ".tsp"));
             var expectedSolve = ParseSolve(System.IO.Path.Combine(folder, file + ".opt.tour"));
