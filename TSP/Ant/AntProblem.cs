@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,11 +12,11 @@ namespace Ant
         int n = 0;
         int m = 0;
         List<int> bestWay = new List<int>();
-        public double BestLength { get; set; } = -1;
+        public double BestLength { get; private set; } = -1;
 
         public int MaxIteration { get; set; } = 500;
         public double MaxTrail { get; set; } = 400;
-        public double MinTrail { get; set; } = 0;
+        public double MinTrail { get; set; } = 0.1;
         public int EliteAnt { get; set; } = 4;
         public double Alpha { get; set; } = 0.8;
         public double Beta { get; set; } = 0.9;
@@ -25,102 +24,8 @@ namespace Ant
         public double Evaporation { get; set; } = 0.5;
         public double[][] Distances { get; set; }
         public double Q { get; set; } = 6500;
-        double[][] trails;
+        internal double[][] trails;
 
-        List<Ant> ants = new List<Ant>();
-        public class Ant
-        {
-            static Random Random { get; set; } = new Random((int)(DateTime.Now.Ticks % int.MaxValue));
-
-            AntProblem _parent = null;
-            public List<int> Way => _way;
-
-            public bool IsAlive { get; set; } = true;
-            public double Length { get; private set; } = 0;
-            public int CurTown { get; private set; } = -1;
-            public int StartTown { get; private set; } = -1;
-
-            List<int> _way = new List<int>();
-            bool[] _visited;
-
-            public Ant(AntProblem parent, int startTown)
-            {
-                _parent = parent;
-                CurTown = startTown;
-                StartTown = startTown;
-                _visited = new bool[_parent.Distances.Length];
-                _visited[StartTown] = true;
-                _way.Add(StartTown);
-            }
-
-            private void GoTo(int town)
-            {
-                if (town == -1)
-                {
-                    IsAlive = false;
-                    return;
-                }
-                _visited[town] = true;
-                _way.Add(town);
-                Length += _parent.Distances[CurTown][town];
-                CurTown = town;
-            }
-            public void GoToNext()
-            {
-                GoTo(NextTown());
-            }
-            public void GoToStart()
-            {
-                GoTo(StartTown);
-            }
-
-            public int NextTown()
-            {
-                int n = _parent.Distances.Length;
-
-                int i = CurTown;
-                double summ = 0;
-
-                List<int> allowed = new List<int>();
-                for (int j = 0; j < n; j++)
-                    if (i != j && _parent.Distances[i][j] != -1 && !_visited[j])
-                        allowed.Add(j);
-
-                double prev = 0;
-                foreach (int j in allowed)
-                {
-                    prev = summ;
-                    summ += Math.Pow(_parent.trails[i][j], _parent.Alpha) * Math.Pow(1.0 / _parent.Distances[i][j], _parent.Beta);
-                    if (double.IsInfinity(summ))
-                    {
-                        throw new Exception("Infinity");
-                    }
-                }
-
-                double[] prob = new double[n];
-                foreach (int j in allowed)
-                    prob[j] = Math.Pow(_parent.trails[i][j], _parent.Alpha) * Math.Pow(1.0 / _parent.Distances[i][j], _parent.Beta) / summ;
-
-                double total = prob.ToList().Sum();
-                if (1.0 - total > 0.0001)
-                    throw new Exception("Total = " + total);
-
-                double value = 0;
-                lock (Random)
-                    value = Random.NextDouble();
-
-                double curSumm = 0;
-                foreach (int j in allowed)
-                {
-                    curSumm += prob[j];
-                    if (curSumm >= value)
-                        return j;
-                }
-
-                throw new Exception("Next town is -1");
-                //return -1;
-            }
-        }
 
         public List<int> Solve()
         {
@@ -130,7 +35,7 @@ namespace Ant
 
             for (int t = 0; t < MaxIteration; t++)
             {
-                ants = new List<Ant>();
+                var ants = new List<Ant>();
                 for (int k = 0; k < m; k++)
                     ants.Add(new Ant(this, k));
 
@@ -148,18 +53,26 @@ namespace Ant
                     tasks.Add(task);
                 }
                 Task.WaitAll(tasks.ToArray());
-                UpdateBest();
-                UpdateTrails();
+                UpdateBest(ants);
+                UpdateTrails(ants);
             }
 
             return bestWay;
         }
 
-        void UpdateTrails()
+        void UpdateTrails(List<Ant> ants)
         {
+            double prev = -1;
             for (int i = 0; i < n; i++)
                 for (int j = 0; j < n; j++)
+                {
+                    prev = trails[i][j];
                     trails[i][j] *= Evaporation;
+                    if (trails[i][j] != 0 && trails[i][j] < 0.00001)
+                    {
+
+                    }
+                }
 
             foreach (Ant ant in ants)
             {
@@ -187,7 +100,7 @@ namespace Ant
 
             //_test = trails.Select(t => t.Max()).Max();
         }
-        void UpdateBest()
+        void UpdateBest(List<Ant> ants)
         {
             foreach (Ant ant in ants)
             {
@@ -230,10 +143,11 @@ namespace Ant
             for (int i = 0; i < n; i++)
                 array[i] = new double[m];
 
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < m; j++)
-                    if (i != j)
-                        array[i][j] = defaultValue;
+            if (defaultValue != 0)
+                for (int i = 0; i < n; i++)
+                    for (int j = 0; j < m; j++)
+                        if (i != j)
+                            array[i][j] = defaultValue;
 
             return array;
         }

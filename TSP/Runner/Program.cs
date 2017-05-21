@@ -76,9 +76,9 @@ namespace Runner
                 solvesIter.Add(_it, double.MaxValue);
                 for (int j = 0; j < elites.Count; j++)
                 {
-                    for (double a = 0.8; a <= 1; a += 0.1)
+                    for (double a = 1.2; a <= 3; a += 3.2)
                     {
-                        for (double b = 0.8; b <= 1; b += 0.1)
+                        for (double b = 1.6; b <= 3; b += 3.2)
                         {
                             var antProblem = new AntProblem()
                             {
