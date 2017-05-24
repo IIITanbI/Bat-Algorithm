@@ -10,17 +10,17 @@ namespace TSP
 
         public int MaxIteration = 10;
         public int SwarmSize = 50;
-        public double[][] Cost;
+        public double[][] CostMatrix;
         public List<int> Solve()
         {
-            int n = Cost.Length;
+            int n = CostMatrix.Length;
 
             Path bestPath = new Path();
             double bestSolution = double.MaxValue;
 
             var swarmSetting = new SwarmSetting()
             {
-                CostMatrix = Cost,
+                CostMatrix = CostMatrix,
                 SwarmSize = SwarmSize,
                 InitialR = Random.NextDouble() % 0.41
             };
@@ -38,9 +38,9 @@ namespace TSP
                     swarm.NextStep();
                 }
 
-                if (swarm.BestSolution < bestSolution)
+                if (swarm.BestCost < bestSolution)
                 {
-                    bestSolution = swarm.BestSolution;
+                    bestSolution = swarm.BestCost;
                     bestPath = swarm.BestPath;
                 }
             }

@@ -7,11 +7,15 @@ namespace TSP
 {
     public class Swarm 
     {
-        private int N { get; set; }
+        int N { get; set; }
+        List<Bat> Bats { get; set; } = new List<Bat>();
 
-        public List<Bat> Bats { get; set; } = new List<Bat>();
+        public SwarmSetting Setting { get; set; }
+        public Path BestPath { get; set; } = null;
+        public double BestCost { get; set; } = double.MaxValue;
+        public int StepNumber { get; private set; } = 1;
+        //public bool IsSolutionCompleted { get; private set; } = false;
 
-        public SwarmSetting Setting { get; set; } = null;
         public Swarm(SwarmSetting setting)
         {
             Setting = setting;
@@ -31,28 +35,19 @@ namespace TSP
             BestPath.Cities.Add(0);
         }
 
-
-        public Path BestPath { get; set; } = null;
-        public double BestSolution { get; set; } = double.MaxValue;
-
-        public int StepNumber { get; private set; } = 1;
-        public bool IsSolutionCompleted { get; private set; } = false;
-
-        public static double timer = 0;
+        //public static double timer = 0;
         public void NextStep()
         {
             var sw = Stopwatch.StartNew();
-            if (IsSolutionCompleted)
-                throw new Exception("There's no available cities to next movement");
+            //if (IsSolutionCompleted)
+            //    throw new Exception("There's no available cities to next movement");
 
             StepNumber++;
 
             Path bestPath = null;
             double bestSolution = double.MaxValue;
 
-
             for (int i = 0; i < Bats.Count; i++)
-            //foreach (var bat in Bats)
             {
                 var bat = Bats[i];
                 var tPath = new Path(bat.Path);
@@ -72,7 +67,7 @@ namespace TSP
                         if (Bats[j].Cost < bestBat.Cost)
                             bestBat = Bats[j];
 
-                        var tempPath = bestBat.Path.BestPath(Setting.CostMatrix);
+                        var tempPath = bestBat.Path.SelfOrWithOpt(Setting.CostMatrix);
                         bat.SetPath(tempPath);
                         bat.Cost = bat.Path.GetCost(Setting.CostMatrix);
                     }
@@ -89,11 +84,11 @@ namespace TSP
             }
 
             BestPath = bestPath;
-            BestSolution = bestSolution;
+            BestCost = bestSolution;
 
-            if (StepNumber == N + 1)
-                IsSolutionCompleted = true;
-            timer += sw.ElapsedMilliseconds / 1000.0;
+            //if (StepNumber == N + 1)
+            //    IsSolutionCompleted = true;
+            //timer += sw.ElapsedMilliseconds / 1000.0;
         }
         double Function(Path path) => path.GetCost(Setting.CostMatrix);
     }

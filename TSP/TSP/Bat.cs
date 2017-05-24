@@ -17,42 +17,27 @@ namespace TSP
         /// </summary>
         public double A { get; set; }
 
-
         public int CurrentCity { get; private set; }
         public int StartCity { get; private set; }
-
-
-        private Path _path = new Path();
-        public Path Path
-        {
-            get
-            {
-
-                return _path;
-            }
-            private set
-            {
-                _path = value;
-            }
-        }
+        public Path Path { get; set; } = new Path();
+     
         public double Cost { get; set; } = 0;
-
-        public bool[] Used { get; private set; }
+        private bool[] _visited { get; set; }
 
         public Bat(int startCity, int n)
         {
             CurrentCity = StartCity = startCity;
             Path.Cities.Add(startCity);
-            Used = new bool[n];
-            Used[CurrentCity] = true;
+            _visited = new bool[n];
+            _visited[CurrentCity] = true;
         }
 
         public void SetPath(Path path)
         {
-            for (int i = 0; i < Used.Length; i++)
-                Used[i] = false;
+            for (int i = 0; i < _visited.Length; i++)
+                _visited[i] = false;
             foreach (var i in path.Cities)
-                Used[i] = true;
+                _visited[i] = true;
             Path = path;
         }
 
@@ -66,7 +51,7 @@ namespace TSP
             if (Path.Cities.Count == n)
             {
                 //go to start
-                Used[StartCity] = false;
+                _visited[StartCity] = false;
             }
             bool examineAll = neighbourCount == -1;
             int examine = neighbourCount;
@@ -77,7 +62,7 @@ namespace TSP
             {
                 int from = CurrentCity;
                 int to = i;
-                if (Used[to])
+                if (_visited[to])
                     continue;
                 double c = costMatrix[from][to];
                 if (c == -1)
@@ -86,7 +71,7 @@ namespace TSP
                 var newPath = new Path(Path);
                 newPath.Cities.Add(to);
 
-                var tPath = newPath.BestPath(costMatrix);
+                var tPath = newPath.SelfOrWithOpt(costMatrix);
 
                 if (bestPath == null || tPath.GetCost(costMatrix) < bestPath.GetCost(costMatrix))
                 {
@@ -110,13 +95,13 @@ namespace TSP
             Cost = Path.GetCost(costMatrix);
 
             CurrentCity = Path.Cities.Last();
-            Used[CurrentCity] = true;
+            _visited[CurrentCity] = true;
 
-            foreach (var i in _path.Cities)
+            foreach (var i in Path.Cities)
             {
-                if (!Used[i])
+                if (!_visited[i])
                 {
-                    throw new System.Exception("Err");
+                    throw new System.Exception("Error");
                 }
             }
         }

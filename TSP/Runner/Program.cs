@@ -76,15 +76,15 @@ namespace Runner
                 solvesIter.Add(_it, double.MaxValue);
                 for (int j = 0; j < elites.Count; j++)
                 {
-                    for (double a = 0.1; a <= 1; a += 0.1)
+                    for (double a = 1.0; a <= 2; a += 0.1)
                     {
-                        for (double b = 0.1; b <= 1; b += 0.1)
+                        for (double b = 1.0; b <= 2; b += 0.1)
                         {
                             var antProblem = new AntProblem()
                             {
                                 Alpha = a,
                                 Beta = b,
-                                EliteAnt = elites[j],
+                                EliteAntCount = elites[j],
                                 Distances = distances,
                                 MaxIteration = _it
                             };
@@ -147,7 +147,7 @@ namespace Runner
             Dictionary<int, double> solvesIter = new Dictionary<int, double>();
 
             List<int> iterations = new List<int>() { 100 };
-            List<int> swarmSize = new List<int>() { 30 };
+            List<int> swarmSize = new List<int>() {30 };
             Stopwatch global = Stopwatch.StartNew();
             for (int it = 0; it < iterations.Count; it++)
             {
@@ -157,7 +157,7 @@ namespace Runner
                 {
                     var problem = new BatProblem()
                     {
-                        Cost = cost,
+                        CostMatrix = cost,
                         MaxIteration = _it,
                         SwarmSize = swarmSize[ss]
                     };
@@ -189,7 +189,7 @@ namespace Runner
         static double[][] CopyArr(double[][] arr)
         {
             double[][] res = new double[arr.Length][];
-            for (int i = 0; i < arr.Length; i++)
+            for(int i = 0; i < arr.Length; i++)
             {
                 res[i] = new double[arr.Length];
                 arr[i].CopyTo(res[i], 0);
@@ -199,17 +199,10 @@ namespace Runner
         }
         static void Main(string[] args)
         {
-            string resultFile = "Result.txt";
-            if (File.Exists(resultFile))
-                File.Delete(resultFile);
-
-            StreamWriter outputFile = new StreamWriter(resultFile);
-            Console.SetOut(outputFile);
-
             string folder = @"ALL_tsp";
-            string file = "eil51";
-            var distances = ParseDistances(System.IO.Path.Combine(folder, file + ".tsp"));
-            var expectedSolve = ParseSolve(System.IO.Path.Combine(folder, file + ".opt.tour"));
+            string file = "gr48";
+            var distances = ParseDistances2(System.IO.Path.Combine(folder, file + ".tsp"));
+            var expectedSolve = ParseSolve1(System.IO.Path.Combine(folder, file + ".opt.tour"));
             double expected = 0;
             for (int i = 0; i < expectedSolve.Count - 1; i++) expected += distances[expectedSolve[i]][expectedSolve[i + 1]];
             Console.WriteLine("Expected Result:");
@@ -218,12 +211,12 @@ namespace Runner
             Console.WriteLine();
             Console.WriteLine("Start");
 
-            double antRes = double.PositiveInfinity;
-            double batRes = double.PositiveInfinity;
+            double antRes = double.MaxValue;
+            double batRes = double.MaxValue;
             for (int i = 0; i < 10; i++)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Try #{i + 1}");
+                Console.WriteLine("Try #" + i);
                 Console.ForegroundColor = ConsoleColor.Gray;
 
                 var ar = RunAnt(CopyArr(distances));
@@ -235,10 +228,9 @@ namespace Runner
                 //Console.WriteLine();
             }
 
-            Console.WriteLine($"Best ant: {antRes}");
-            Console.WriteLine($"Best bat: {batRes}");
-          
-            outputFile.Close();
+            Console.WriteLine("Best ant: " + antRes);
+            Console.WriteLine("Best bat: " + batRes);
+            Console.Read();
         }
 
         public static List<int> StupidSolve(double[][] distances)
@@ -310,7 +302,6 @@ namespace Runner
             var lines = allLines.SkipWhile(s => s != "EDGE_WEIGHT_SECTION").Skip(1).TakeWhile(s => s != "EOF" && s != "DISPLAY_DATA_SECTION").ToList();
 
             double[][] res = new double[lines.Count][];
-            List<Tuple<double, double>> points = new List<Tuple<double, double>>();
             for (int i = 0; i < lines.Count; i++)
             {
                 var split = lines[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -324,13 +315,67 @@ namespace Runner
 
             return res;
         }
-        static List<int> ParseSolve(string file)
+
+        static double[][] ParseDistances2(string file)
         {
             var allLines = File.ReadAllLines(file);
-            var lines = allLines.SkipWhile(s => s != "TOUR_SECTION").Skip(1).TakeWhile(s => s != "-1").ToList();
-            lines.Add(lines[0]);
-            var results = lines.Select(l => int.Parse(l) - 1).ToList();
-            return results;
+            var lines1 = allLines.SkipWhile(s => s != "EDGE_WEIGHT_SECTION").Skip(1).TakeWhile(s => s != "EOF" && s != "DISPLAY_DATA_SECTION").ToList();
+
+            string total = ' ' + string.Join(" ", lines1).Trim();
+            var lines = total.Split(new string[] { " 0" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            lines.Insert(0, "0");
+
+            double[][] res = new double[lines.Count][];
+            for (int i = 0; i < lines.Count; i++)
+            {
+                var split = lines[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                res[i] = new double[lines.Count];
+                for (int j = 0; j < split.Length; j++)
+                {
+                    res[i][j] = double.Parse(split[j]);
+                    res[j][i] = double.Parse(split[j]);
+                }
+            }
+
+            return res;
+        }
+        static List<int> ParseSolve(string file)
+        {
+            try
+            {
+                var allLines = File.ReadAllLines(file);
+                var lines = allLines.SkipWhile(s => s != "TOUR_SECTION").Skip(1).TakeWhile(s => s != "-1").ToList();
+                lines.Add(lines[0]);
+                var results = lines.Select(l => int.Parse(l) - 1).ToList();
+                return results;
+            }
+            catch
+            {
+                return new List<int>();
+            }
+        }
+        static List<int> ParseSolve1(string file)
+        {
+            try
+            {
+                var allLines = File.ReadAllLines(file);
+                var lines = allLines.SkipWhile(s => s != "TOUR_SECTION").Skip(1).TakeWhile(s => s != "-1").ToList();
+
+                List<int> res = new List<int>();
+                foreach (var line in lines)
+                {
+                    var split = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    res.AddRange(split.Select(s => int.Parse(s) - 1));
+                }
+
+                res.Insert(0, res.Last());
+                return res;
+            }
+            catch
+            {
+                return new List<int>();
+            }
         }
     }
 }

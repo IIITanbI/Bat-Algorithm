@@ -46,7 +46,6 @@ namespace TSP
             }
             return res;
         }
-
         public Path TwoOpt()
         {
             int n = Cities.Count;
@@ -76,8 +75,11 @@ namespace TSP
 
             return p;
         }
-
-        public Path BestPath(double[][] costMatrix)
+        public Path ThreeOpt()
+        {
+            return TwoOpt();
+        }
+        public Path SelfOrWithOpt(double[][] costMatrix)
         {
             var newPath = new Path(this);
             double tempCost1 = newPath.GetCost(costMatrix);
