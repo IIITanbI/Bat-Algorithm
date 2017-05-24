@@ -76,9 +76,9 @@ namespace Runner
                 solvesIter.Add(_it, double.MaxValue);
                 for (int j = 0; j < elites.Count; j++)
                 {
-                    for (double a = 0.8; a <= 1; a += 0.1)
+                    for (double a = 0.1; a <= 1; a += 0.1)
                     {
-                        for (double b = 0.8; b <= 1; b += 0.1)
+                        for (double b = 0.1; b <= 1; b += 0.1)
                         {
                             var antProblem = new AntProblem()
                             {
@@ -147,7 +147,7 @@ namespace Runner
             Dictionary<int, double> solvesIter = new Dictionary<int, double>();
 
             List<int> iterations = new List<int>() { 100 };
-            List<int> swarmSize = new List<int>() {30 };
+            List<int> swarmSize = new List<int>() { 30 };
             Stopwatch global = Stopwatch.StartNew();
             for (int it = 0; it < iterations.Count; it++)
             {
@@ -189,7 +189,7 @@ namespace Runner
         static double[][] CopyArr(double[][] arr)
         {
             double[][] res = new double[arr.Length][];
-            for(int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < arr.Length; i++)
             {
                 res[i] = new double[arr.Length];
                 arr[i].CopyTo(res[i], 0);
@@ -199,6 +199,13 @@ namespace Runner
         }
         static void Main(string[] args)
         {
+            string resultFile = "Result.txt";
+            if (File.Exists(resultFile))
+                File.Delete(resultFile);
+
+            StreamWriter outputFile = new StreamWriter(resultFile);
+            Console.SetOut(outputFile);
+
             string folder = @"ALL_tsp";
             string file = "eil51";
             var distances = ParseDistances(System.IO.Path.Combine(folder, file + ".tsp"));
@@ -211,12 +218,12 @@ namespace Runner
             Console.WriteLine();
             Console.WriteLine("Start");
 
-            double antRes = double.MaxValue;
-            double batRes = double.MaxValue;
+            double antRes = double.PositiveInfinity;
+            double batRes = double.PositiveInfinity;
             for (int i = 0; i < 10; i++)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Try #" + i);
+                Console.WriteLine($"Try #{i + 1}");
                 Console.ForegroundColor = ConsoleColor.Gray;
 
                 var ar = RunAnt(CopyArr(distances));
@@ -228,8 +235,10 @@ namespace Runner
                 //Console.WriteLine();
             }
 
-            Console.WriteLine("Best ant: " + antRes);
-            Console.WriteLine("Best bat: " + batRes);
+            Console.WriteLine($"Best ant: {antRes}");
+            Console.WriteLine($"Best bat: {batRes}");
+          
+            outputFile.Close();
         }
 
         public static List<int> StupidSolve(double[][] distances)
