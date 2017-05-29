@@ -10,54 +10,15 @@ using TSP;
 
 namespace Runner
 {
-    public class Program
+    public partial class Program
     {
-        static void PrintMatrix(double[][] matrix)
+        static double Length(double[][] distances, List<int> solve)
         {
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix.Length; j++)
-                {
-                    var value = Math.Round(matrix[i][j], 2);
-                    Console.Write(value.ToString().PadLeft(6));
-                }
-                Console.WriteLine();
-            }
+            double res = 0;
+            for (int i = 0; i < solve.Count - 1; i++)
+                res += distances[solve[i]][solve[i + 1]];
+            return res;
         }
-        static void PrintMatrixInFile(double[][] matrix, string file)
-        {
-            StringBuilder build = new StringBuilder();
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix.Length; j++)
-                {
-                    var value = Math.Round(matrix[i][j], 2);
-                    build.Append(value.ToString().PadLeft(6));
-                }
-                build.AppendLine();
-            }
-            string str = build.ToString();
-            File.WriteAllText(file, str);
-        }
-        public static double[][] RandomDst(int n)
-        {
-            Random random = new Random();
-            double[][] distances = new double[n][];
-            for (int i = 0; i < n; i++)
-                distances[i] = new double[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = i + 1; j < n; j++)
-                {
-                    var dst = random.Next(10, 20);
-                    distances[i][j] = dst;
-                    distances[j][i] = dst;
-                }
-            }
-            return distances;
-        }
-
         static double RunAnt(double[][] distances)
         {
             Console.WriteLine("Ant Problem");
@@ -90,10 +51,7 @@ namespace Runner
                             };
                             var antSolve = antProblem.Solve();
 
-                            double res = 0;
-                            for (int i = 0; i < antSolve.Count - 1; i++)
-                                res += distances[antSolve[i]][antSolve[i + 1]];
-
+                            double res = Length(distances, antSolve);
                             solves.Add(res);
                             Console.WriteLine(solves.Min());
                             solvesIter[_it] = Math.Min(res, solvesIter[_it]);
@@ -185,18 +143,7 @@ namespace Runner
             }
             return solves.First();
         }
-
-        static double[][] CopyArr(double[][] arr)
-        {
-            double[][] res = new double[arr.Length][];
-            for(int i = 0; i < arr.Length; i++)
-            {
-                res[i] = new double[arr.Length];
-                arr[i].CopyTo(res[i], 0);
-            }
-
-            return res;
-        }
+      
         static void Main(string[] args)
         {
             string folder = @"ALL_tsp";
@@ -267,115 +214,18 @@ namespace Runner
             return res;
         }
 
-        static double[][] ParseDistances(string file)
+      
+
+        static double[][] CopyArr(double[][] arr)
         {
-            var allLines = File.ReadAllLines(file);
-            var lines = allLines.SkipWhile(s => s != "NODE_COORD_SECTION").Skip(1).TakeWhile(s => s != "EOF").ToList();
-
-            double[][] res = new double[lines.Count][];
-            List<Tuple<double, double>> points = new List<Tuple<double, double>>();
-            for (int i = 0; i < lines.Count; i++)
+            double[][] res = new double[arr.Length][];
+            for (int i = 0; i < arr.Length; i++)
             {
-                var split = lines[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                points.Add(new Tuple<double, double>(double.Parse(split[1]), double.Parse(split[2])));
-            }
-
-            points.Sort();
-            var tt = points.SelectMany(p => points.Where(p1 => p.Item1 == p1.Item1 && p.Item2 == p1.Item2).Skip(1)).ToList();
-            if (tt.Count > 0)
-            {
-
-            }
-            for (int i = 0; i < points.Count; i++)
-            {
-                res[i] = new double[points.Count];
-                for (int j = 0; j < points.Count; j++)
-                {
-                    res[i][j] = (int)(Math.Sqrt(Math.Pow(points[i].Item1 - points[j].Item1, 2) + Math.Pow(points[i].Item2 - points[j].Item2, 2)) + 0.5);
-                }
-            }
-            return res;
-        }
-        static double[][] ParseDistances1(string file)
-        {
-            var allLines = File.ReadAllLines(file);
-            var lines = allLines.SkipWhile(s => s != "EDGE_WEIGHT_SECTION").Skip(1).TakeWhile(s => s != "EOF" && s != "DISPLAY_DATA_SECTION").ToList();
-
-            double[][] res = new double[lines.Count][];
-            for (int i = 0; i < lines.Count; i++)
-            {
-                var split = lines[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                res[i] = new double[lines.Count];
-                for (int j = 0; j < lines.Count; j++)
-                {
-                    res[i][j] = double.Parse(split[j]);
-                }
+                res[i] = new double[arr.Length];
+                arr[i].CopyTo(res[i], 0);
             }
 
             return res;
-        }
-
-        static double[][] ParseDistances2(string file)
-        {
-            var allLines = File.ReadAllLines(file);
-            var lines1 = allLines.SkipWhile(s => s != "EDGE_WEIGHT_SECTION").Skip(1).TakeWhile(s => s != "EOF" && s != "DISPLAY_DATA_SECTION").ToList();
-
-            string total = ' ' + string.Join(" ", lines1).Trim();
-            var lines = total.Split(new string[] { " 0" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            lines.Insert(0, "0");
-
-            double[][] res = new double[lines.Count][];
-            for (int i = 0; i < lines.Count; i++)
-            {
-                var split = lines[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                res[i] = new double[lines.Count];
-                for (int j = 0; j < split.Length; j++)
-                {
-                    res[i][j] = double.Parse(split[j]);
-                    res[j][i] = double.Parse(split[j]);
-                }
-            }
-
-            return res;
-        }
-        static List<int> ParseSolve(string file)
-        {
-            try
-            {
-                var allLines = File.ReadAllLines(file);
-                var lines = allLines.SkipWhile(s => s != "TOUR_SECTION").Skip(1).TakeWhile(s => s != "-1").ToList();
-                lines.Add(lines[0]);
-                var results = lines.Select(l => int.Parse(l) - 1).ToList();
-                return results;
-            }
-            catch
-            {
-                return new List<int>();
-            }
-        }
-        static List<int> ParseSolve1(string file)
-        {
-            try
-            {
-                var allLines = File.ReadAllLines(file);
-                var lines = allLines.SkipWhile(s => s != "TOUR_SECTION").Skip(1).TakeWhile(s => s != "-1").ToList();
-
-                List<int> res = new List<int>();
-                foreach (var line in lines)
-                {
-                    var split = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    res.AddRange(split.Select(s => int.Parse(s) - 1));
-                }
-
-                res.Insert(0, res.Last());
-                return res;
-            }
-            catch
-            {
-                return new List<int>();
-            }
         }
     }
 }

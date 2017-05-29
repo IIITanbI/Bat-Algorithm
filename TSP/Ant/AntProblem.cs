@@ -16,8 +16,8 @@ namespace Ant
         public double BestLength { get; private set; } = -1;
 
         public int MaxIteration { get; set; } = 500;
-        public double MaxTrail { get; set; } = 400;
-        public double MinTrail { get; set; } = 0.1;
+        public double MaxTrail { get; set; } = double.MaxValue;
+        public double MinTrail { get; set; } = 1e-6;
         public int EliteAntCount { get; set; } = 10;
         public double Alpha { get; set; } = 0.8;
         public double Beta { get; set; } = 0.9;
@@ -70,7 +70,7 @@ namespace Ant
                 {
                     prev = trails[i][j];
                     trails[i][j] *= Evaporation;
-                    if (trails[i][j] != 0 && trails[i][j] < 0.00001)
+                    if (trails[i][j] != 0 && trails[i][j] < 0.00000001)
                     {
 
                     }

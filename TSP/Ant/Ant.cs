@@ -71,6 +71,8 @@ namespace Ant
                 summ += Math.Pow(_parent.trails[i][j], _parent.Alpha) * Math.Pow(1.0 / _parent.Distances[i][j], _parent.Beta);
                 if (double.IsInfinity(summ))
                     throw new Exception("Infinity");
+                if (double.IsNaN(summ))
+                    throw new Exception("NaN");
             }
 
             double[] prob = new double[n];
@@ -92,6 +94,7 @@ namespace Ant
                 if (curSumm >= value)
                     return j;
             }
+
 
             throw new Exception("Next town is -1");
             //return -1;
