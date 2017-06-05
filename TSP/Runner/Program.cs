@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TSP;
 
@@ -29,7 +30,7 @@ namespace Runner
             List<int> elites = new List<int>() { 0, 1, 2, 3, 4, 5, 10, 15, 20, 25 };
             elites = new List<int>() { 10 };
 
-            List<int> iterations = new List<int>() { 1000 };
+            List<int> iterations = new List<int>() { 100 };
             Stopwatch global = Stopwatch.StartNew();
             for (int it = 0; it < iterations.Count; it++)
             {
@@ -37,9 +38,9 @@ namespace Runner
                 solvesIter.Add(_it, double.MaxValue);
                 for (int j = 0; j < elites.Count; j++)
                 {
-                    for (double a = 1.0; a <= 2; a += 0.1)
+                    for (double a = 0.5; a <= 2; a += 0.3)
                     {
-                        for (double b = 1.0; b <= 2; b += 0.1)
+                        for (double b = 0.5; b <= 2; b += 0.3)
                         {
                             var antProblem = new AntProblem()
                             {
@@ -105,7 +106,7 @@ namespace Runner
             Dictionary<int, double> solvesIter = new Dictionary<int, double>();
 
             List<int> iterations = new List<int>() { 100 };
-            List<int> swarmSize = new List<int>() {30 };
+            List<int> swarmSize = new List<int>() { 30 };
             Stopwatch global = Stopwatch.StartNew();
             for (int it = 0; it < iterations.Count; it++)
             {
@@ -143,13 +144,40 @@ namespace Runner
             }
             return solves.First();
         }
-      
+
         static void Main(string[] args)
         {
+            var lines = File.ReadAllLines("task.txt");
+            Regex regex = new Regex(@"\d+", RegexOptions.Compiled);
+            Regex regexN = new Regex(@"[a-zA-Z]+", RegexOptions.Compiled);
+
+            List<Tuple<string, int, int>> tasks = new List<Tuple<string, int, int>>();
+            foreach (var line in lines)
+            {
+                string name = regexN.Match(line).Value;
+                int count = int.Parse(regex.Matches(line)[0].Value);
+                int result = int.Parse(regex.Matches(line)[1].Value);
+                tasks.Add(new Tuple<string, int, int>(name, count, result));
+            }
+
+            tasks.Sort((a, b) =>
+            {
+                return a.Item2.CompareTo(b.Item2);
+            });
+
+            var ttt = tasks.Take(40).ToList();
+            ttt.Sort((a, b) =>
+            {
+                if (a.Item1.CompareTo(b.Item1) == 0)
+                    return a.Item2.CompareTo(b.Item2);
+                return a.Item1.CompareTo(b.Item1);
+            });
+            //var zzz = ttt.Select(t => t.Item1 + t.Item2).ToList();
+            var zzz = ttt.Select(t => t.Item2).ToList();
             string folder = @"ALL_tsp";
-            string file = "gr48";
-            var distances = ParseDistances2(System.IO.Path.Combine(folder, file + ".tsp"));
-            var expectedSolve = ParseSolve1(System.IO.Path.Combine(folder, file + ".opt.tour"));
+            string file = "ch150";
+            var distances = ParseDistances(System.IO.Path.Combine(folder, file + ".tsp"));
+            var expectedSolve = ParseSolve(System.IO.Path.Combine(folder, file + ".opt.tour"));
             double expected = 0;
             for (int i = 0; i < expectedSolve.Count - 1; i++) expected += distances[expectedSolve[i]][expectedSolve[i + 1]];
             Console.WriteLine("Expected Result:");
@@ -214,7 +242,7 @@ namespace Runner
             return res;
         }
 
-      
+
 
         static double[][] CopyArr(double[][] arr)
         {

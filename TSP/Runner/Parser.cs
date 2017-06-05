@@ -22,18 +22,21 @@ namespace Runner
                 points.Add(new Tuple<double, double>(double.Parse(split[1]), double.Parse(split[2])));
             }
 
-            points.Sort();
+           // points.Sort();
             var tt = points.SelectMany(p => points.Where(p1 => p.Item1 == p1.Item1 && p.Item2 == p1.Item2).Skip(1)).ToList();
             if (tt.Count > 0)
             {
-
+                throw new Exception("Duplicate");
             }
             for (int i = 0; i < points.Count; i++)
             {
                 res[i] = new double[points.Count];
                 for (int j = 0; j < points.Count; j++)
                 {
-                    res[i][j] = (int)(Math.Sqrt(Math.Pow(points[i].Item1 - points[j].Item1, 2) + Math.Pow(points[i].Item2 - points[j].Item2, 2)) + 0.5);
+                    res[i][j] = Math.Sqrt(Math.Pow(points[i].Item1 - points[j].Item1, 2) + Math.Pow(points[i].Item2 - points[j].Item2, 2));
+                    res[i][j] = (int)(res[i][j] + 0.5);
+                    if (res[i][j] == 0 && i != j)
+                        throw new Exception("Distance is 0");
                 }
             }
             return res;

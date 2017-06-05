@@ -48,117 +48,339 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ALL_tsp\a280.tsp" />
-    <None Include="ALL_tsp\ali535.tsp" />
-    <None Include="ALL_tsp\att48.tsp" />
-    <None Include="ALL_tsp\att532.tsp" />
-    <None Include="ALL_tsp\bayg29.tsp" />
-    <None Include="ALL_tsp\bays29.tsp" />
-    <None Include="ALL_tsp\berlin52.tsp" />
-    <None Include="ALL_tsp\bier127.tsp" />
-    <None Include="ALL_tsp\brazil58.tsp" />
-    <None Include="ALL_tsp\brd14051.tsp" />
-    <None Include="ALL_tsp\brg180.tsp" />
-    <None Include="ALL_tsp\burma14.tsp" />
-    <None Include="ALL_tsp\ch130.tsp" />
-    <None Include="ALL_tsp\ch150.tsp" />
-    <None Include="ALL_tsp\d1291.tsp" />
-    <None Include="ALL_tsp\d15112.tsp" />
-    <None Include="ALL_tsp\d1655.tsp" />
-    <None Include="ALL_tsp\d18512.tsp" />
-    <None Include="ALL_tsp\d198.tsp" />
-    <None Include="ALL_tsp\d2103.tsp" />
-    <None Include="ALL_tsp\d493.tsp" />
-    <None Include="ALL_tsp\d657.tsp" />
-    <None Include="ALL_tsp\dantzig42.tsp" />
-    <None Include="ALL_tsp\dsj1000.tsp" />
-    <None Include="ALL_tsp\eil101.tsp" />
-    <None Include="ALL_tsp\eil51.tsp" />
-    <None Include="ALL_tsp\eil76.tsp" />
-    <None Include="ALL_tsp\fl1400.tsp" />
-    <None Include="ALL_tsp\fl1577.tsp" />
-    <None Include="ALL_tsp\fl3795.tsp" />
-    <None Include="ALL_tsp\fl417.tsp" />
-    <None Include="ALL_tsp\fnl4461.tsp" />
-    <None Include="ALL_tsp\fri26.tsp" />
-    <None Include="ALL_tsp\gil262.tsp" />
-    <None Include="ALL_tsp\gr120.tsp" />
-    <None Include="ALL_tsp\gr137.tsp" />
-    <None Include="ALL_tsp\gr17.tsp" />
-    <None Include="ALL_tsp\gr202.tsp" />
-    <None Include="ALL_tsp\gr21.tsp" />
-    <None Include="ALL_tsp\gr229.tsp" />
-    <None Include="ALL_tsp\gr24.tsp" />
-    <None Include="ALL_tsp\gr431.tsp" />
-    <None Include="ALL_tsp\gr48.tsp" />
-    <None Include="ALL_tsp\gr666.tsp" />
-    <None Include="ALL_tsp\gr96.tsp" />
-    <None Include="ALL_tsp\hk48.tsp" />
-    <None Include="ALL_tsp\kroA100.tsp" />
-    <None Include="ALL_tsp\kroA150.tsp" />
-    <None Include="ALL_tsp\kroA200.tsp" />
-    <None Include="ALL_tsp\kroB100.tsp" />
-    <None Include="ALL_tsp\kroB150.tsp" />
-    <None Include="ALL_tsp\kroB200.tsp" />
-    <None Include="ALL_tsp\kroC100.tsp" />
-    <None Include="ALL_tsp\kroD100.tsp" />
-    <None Include="ALL_tsp\kroE100.tsp" />
-    <None Include="ALL_tsp\lin105.tsp" />
-    <None Include="ALL_tsp\lin318.tsp" />
-    <None Include="ALL_tsp\linhp318.tsp" />
-    <None Include="ALL_tsp\nrw1379.tsp" />
-    <None Include="ALL_tsp\p654.tsp" />
-    <None Include="ALL_tsp\pa561.tsp" />
-    <None Include="ALL_tsp\pcb1173.tsp" />
-    <None Include="ALL_tsp\pcb3038.tsp" />
-    <None Include="ALL_tsp\pcb442.tsp" />
-    <None Include="ALL_tsp\pla33810.tsp" />
-    <None Include="ALL_tsp\pla7397.tsp" />
-    <None Include="ALL_tsp\pla85900.tsp" />
-    <None Include="ALL_tsp\pr1002.tsp" />
-    <None Include="ALL_tsp\pr107.tsp" />
-    <None Include="ALL_tsp\pr124.tsp" />
-    <None Include="ALL_tsp\pr136.tsp" />
-    <None Include="ALL_tsp\pr144.tsp" />
-    <None Include="ALL_tsp\pr152.tsp" />
-    <None Include="ALL_tsp\pr226.tsp" />
-    <None Include="ALL_tsp\pr2392.tsp" />
-    <None Include="ALL_tsp\pr264.tsp" />
-    <None Include="ALL_tsp\pr299.tsp" />
-    <None Include="ALL_tsp\pr439.tsp" />
-    <None Include="ALL_tsp\pr76.tsp" />
-    <None Include="ALL_tsp\rat195.tsp" />
-    <None Include="ALL_tsp\rat575.tsp" />
-    <None Include="ALL_tsp\rat783.tsp" />
-    <None Include="ALL_tsp\rat99.tsp" />
-    <None Include="ALL_tsp\rd100.tsp" />
-    <None Include="ALL_tsp\rd400.tsp" />
-    <None Include="ALL_tsp\rl11849.tsp" />
-    <None Include="ALL_tsp\rl1304.tsp" />
-    <None Include="ALL_tsp\rl1323.tsp" />
-    <None Include="ALL_tsp\rl1889.tsp" />
-    <None Include="ALL_tsp\rl5915.tsp" />
-    <None Include="ALL_tsp\rl5934.tsp" />
-    <None Include="ALL_tsp\si1032.tsp" />
-    <None Include="ALL_tsp\si175.tsp" />
-    <None Include="ALL_tsp\si535.tsp" />
-    <None Include="ALL_tsp\st70.tsp" />
-    <None Include="ALL_tsp\swiss42.tsp" />
-    <None Include="ALL_tsp\ts225.tsp" />
-    <None Include="ALL_tsp\tsp225.tsp" />
-    <None Include="ALL_tsp\u1060.tsp" />
-    <None Include="ALL_tsp\u1432.tsp" />
-    <None Include="ALL_tsp\u159.tsp" />
-    <None Include="ALL_tsp\u1817.tsp" />
-    <None Include="ALL_tsp\u2152.tsp" />
-    <None Include="ALL_tsp\u2319.tsp" />
-    <None Include="ALL_tsp\u574.tsp" />
-    <None Include="ALL_tsp\u724.tsp" />
-    <None Include="ALL_tsp\ulysses16.tsp" />
-    <None Include="ALL_tsp\ulysses22.tsp" />
-    <None Include="ALL_tsp\usa13509.tsp" />
-    <None Include="ALL_tsp\vm1084.tsp" />
-    <None Include="ALL_tsp\vm1748.tsp" />
+    <None Include="ALL_tsp\a280.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\ali535.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\att48.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\att532.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\bayg29.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\bays29.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\berlin52.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\bier127.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\brazil58.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\brd14051.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\brg180.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\burma14.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\ch130.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\ch150.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\d1291.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\d15112.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\d1655.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\d18512.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\d198.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\d2103.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\d493.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\d657.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\dantzig42.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\dsj1000.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\eil101.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\eil51.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\eil76.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\fl1400.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\fl1577.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\fl3795.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\fl417.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\fnl4461.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\fri26.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gil262.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr120.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr137.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr17.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr202.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr21.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr229.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr24.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr431.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr48.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr666.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\gr96.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\hk48.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\kroA100.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\kroA150.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\kroA200.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\kroB100.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\kroB150.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\kroB200.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\kroC100.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\kroD100.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\kroE100.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\lin105.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\lin318.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\linhp318.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\nrw1379.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\p654.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pa561.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pcb1173.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pcb3038.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pcb442.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pla33810.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pla7397.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pla85900.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr1002.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr107.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr124.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr136.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr144.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr152.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr226.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr2392.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr264.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr299.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr439.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\pr76.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rat195.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rat575.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rat783.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rat99.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rd100.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rd400.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rl11849.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rl1304.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rl1323.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rl1889.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rl5915.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\rl5934.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\si1032.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\si175.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\si535.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\st70.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\swiss42.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\ts225.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\tsp225.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\u1060.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\u1432.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\u159.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\u1817.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\u2152.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\u2319.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\u574.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\u724.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\ulysses16.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\ulysses22.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\usa13509.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\vm1084.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ALL_tsp\vm1748.tsp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +393,10 @@
       <Name>TSP</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="task.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

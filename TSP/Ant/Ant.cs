@@ -64,24 +64,23 @@ namespace Ant
                 if (i != j && _parent.Distances[i][j] != -1 && !_visited[j])
                     allowed.Add(j);
 
-            double prev = 0;
+            // double prev = 0;
             foreach (int j in allowed)
             {
-                prev = summ;
-                summ += Math.Pow(_parent.trails[i][j], _parent.Alpha) * Math.Pow(1.0 / _parent.Distances[i][j], _parent.Beta);
-                if (double.IsInfinity(summ))
-                    throw new Exception("Infinity");
-                if (double.IsNaN(summ))
-                    throw new Exception("NaN");
+                //prev = summ;
+                summ += _parent._coefficient[i][j];
             }
 
             double[] prob = new double[n];
             foreach (int j in allowed)
-                prob[j] = Math.Pow(_parent.trails[i][j], _parent.Alpha) * Math.Pow(1.0 / _parent.Distances[i][j], _parent.Beta) / summ;
+                prob[j] = _parent._coefficient[i][j] / summ;
 
+#if DEBUG
             double total = prob.ToList().Sum();
+
             if (1.0 - total > 0.0001)
                 throw new Exception("Total = " + total);
+#endif
 
             double value = 0;
             lock (Random)

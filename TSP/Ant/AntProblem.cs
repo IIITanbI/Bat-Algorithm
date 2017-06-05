@@ -26,7 +26,7 @@ namespace Ant
         public double[][] Distances { get; set; }
         public double Q { get; set; } = 6500;
 
-        
+        public double[][] _coefficient { get; set; }
 
 
         public List<int> Solve()
@@ -34,9 +34,13 @@ namespace Ant
             n = Distances.Length;
             m = n;
             trails = CreateArray(n, n, DefaultTrail);
+            _coefficient = CreateArray(n, n, 0);
+
 
             for (int t = 0; t < MaxIteration; t++)
             {
+                Refresh();
+
                 var ants = new List<Ant>();
                 for (int k = 0; k < m; k++)
                     ants.Add(new Ant(this, k));
@@ -137,6 +141,22 @@ namespace Ant
             //        }
             //    }
             //}
+        }
+        void Refresh()
+        {
+           for(int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (i == j) continue;
+
+                    _coefficient[i][j] = Math.Pow(trails[i][j], Alpha) * Math.Pow(1.0 / Distances[i][j], Beta);
+                    if (double.IsInfinity(_coefficient[i][j]))
+                        throw new Exception("Infinity");
+                    if (double.IsNaN(_coefficient[i][j]))
+                        throw new Exception("NaN");
+                }
+            }
         }
         double[][] CreateArray(int n, int m, double defaultValue = 0)
         {
